@@ -55,7 +55,6 @@ def find_average_subject_score(students_list: list, subject_name: str) -> int:
         for key, value in student.items():
             if key == subject_name:
                 total_score += value
-        total_score
     return total_score / len(students_list)
 
 
