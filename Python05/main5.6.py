@@ -49,7 +49,7 @@ def find_smart_students(students_list: list) -> list:
     return smart_students_info
 
 
-def find_average_subject_score(students_list: list, subject_name: str) -> int:
+def find_average_subject_score(students_list: list, subject_name: str) -> float:
     total_score = 0
     for student in students_list:
         for key, value in student.items():
