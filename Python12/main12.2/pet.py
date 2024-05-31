@@ -52,8 +52,8 @@ class Pet:
     def change_weight(self, value=0.2) -> None:
         self.__weight += value
 
-    def jump(self):
-        print('JUMP!')
+    def jump(self, jump_height):
+        print(f'Jump {jump_height} meters!')
 
     def run(self):
         print('RUN!')
