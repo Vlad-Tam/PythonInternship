@@ -1,0 +1,15 @@
+from pet import Pet
+
+
+class Dog(Pet):
+    def __init__(self, age: int, master: str, height: float, weight: float):
+        super().__init__(age, master, height, weight)
+
+    def voice(self):
+        print('BARK!')
+
+    def jump(self, jump_height):
+        if jump_height > 0.5:
+            print('Dogs cannot jump so high')
+        else:
+            print(f'Dog jump {jump_height} meters!')
