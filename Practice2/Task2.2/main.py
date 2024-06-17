@@ -1,4 +1,5 @@
 import argparse
+import json
 from argparse import Namespace
 from iperf import IperfCommand
 
@@ -17,4 +18,4 @@ def get_args() -> Namespace:
 if __name__ == '__main__':
     args = get_args()
     iperf_executor = IperfCommand(args.ip1, args.name1, args.pass1, args.ip2, args.name2, args.pass2)
-    print(f'Bandwidth is: {iperf_executor.execute()}')
+    print(json.dumps(iperf_executor.execute(), indent=2))

@@ -53,8 +53,6 @@ class SSHPass:
                     stderr=subprocess.PIPE,
                     shell=True
                 )
-                # print(f"COMMAND: 'sshpass -p {self.__password} {self.__subcommand} {self.__username}@{self.__host}
-                # {self.check_subcommand()}{command}'")
             else:
                 process = subprocess.Popen(
                     f'sshpass -f {self.PASSWORD_PATH} {self.__subcommand} {self.__username}@{self.__host}'

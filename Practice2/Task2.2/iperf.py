@@ -13,10 +13,31 @@ class IperfCommand:
         self.__node2 = SSHPass(host=ip2, username=name2, password=password2)
         self.__parser = Parser()
 
-    def execute(self):
-        print(f'SERVER: host={self.__node1.host} name={self.__node1.username} password={self.__node1.password}')
-        print(f'CLIENT: host={self.__node2.host} name={self.__node2.username} password={self.__node2.password}')
+    @property
+    def node1(self) -> SSHPass:
+        return self.__node1
 
+    @node1.setter
+    def host(self, value: SSHPass):
+        self.__node1 = value
+
+    @property
+    def node2(self) -> SSHPass:
+        return self.__node2
+
+    @node2.setter
+    def host(self, value: SSHPass):
+        self.__node2 = value
+
+    @property
+    def parser(self) -> Parser:
+        return self.__parser
+
+    @parser.setter
+    def subcommand(self, value: Parser):
+        self.__parser = value
+
+    def execute(self):
         print('Starting server')
         server_thread = threading.Thread(target=self.run_server)
         server_thread.start()
@@ -27,17 +48,18 @@ class IperfCommand:
         print('Starting client')
         client_output = self.run_client()
         self.kill_server_process(server_pid)
-
         if client_output.get('return code'):
             print(f"ERROR: {client_output.get('stderr')}")
         else:
-            return self.__parser.get_bandwidth_from_iperf(client_output.get('stdout'))
+            client_output['stdout'] = self.__parser.get_fields_from_iperf(client_output.get('stdout'),
+                                                                          self.__node1, self.__node2)
+            return client_output
 
     def run_server(self) -> Dict:
         return self.__node1.run_command("iperf -s -1")
 
     def run_client(self) -> Dict:
-        return self.__node2.run_command(f"iperf -c {self.__node1.host}")
+        return self.__node2.run_command(f"iperf -c {self.__node1.host} ")
 
     def wait_for_server(self, timeout: int = 10) -> int:
         for i in range(timeout):
